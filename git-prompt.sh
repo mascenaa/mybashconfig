@@ -12,33 +12,24 @@ else
 	PS1='\[\033]0;$TITLEPREFIX:$PWD\007\]' # set window title
 	PS1="$PS1"'\n'                 # new line
 	if [ -z "$(git rev-parse --is-inside-work-tree 2>/dev/null)" ]; then
-		PS1="$PS1"'\[\033[95m\]'       
-		PS1="$PS1"'\u ' 
+		PS1="$PS1"'\[\033[95m\] \u ' 
 		PS1="$PS1"'working in '  
 		PS1="$PS1"'\w'
 	else
-		if git rev-parse --is-inside-git-dir >/dev/null 2>&1; then
-			PS1="$PS1"'\[\033[95m\]'       
-			PS1="$PS1"'\u ' 
-			PS1="$PS1"'working in '  
-			PS1="$PS1"'\w'
-		else
 			GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD)  
 			OWNER=$(git config --get remote.origin.url | sed -n 's/.*\/\([^/]*\)\/[^/]*$/\1/p') # Get the repository owner
-			PS1="$PS1"'\[\033[95m\]'       
-			PS1="$PS1"'\u ' 
+			PS1="$PS1"'\[\033[95m\] \u '
 			PS1="$PS1"'working in '  
 			PS1="$PS1"'\w'
 			PS1="$PS1"' on '  
 			PS1="$PS1"'🍴 $GIT_BRANCH [$OWNER] is 📦 v1.0.0'
-		fi
 	fi
 fi
 
 if docker info &> /dev/null; then
-	PS1="$PS1"'\[\033[34m\] 🐳 Docker is on'  
+	PS1="$PS1"'\[\033[34m\] 🐳 Docker on'  
 else 
-	PS1="$PS1"'\[\033[34m\] 🐳 Docker is off'  
+	PS1="$PS1"'\[\033[34m\] 🐳 Docker off'  
 fi
 
 if test -z "$WINELOADERNOEXEC"
@@ -51,7 +42,6 @@ then
 	then
 		. "$COMPLETION_PATH/git-completion.bash"
 		. "$COMPLETION_PATH/git-prompt.sh"
-		PS1="$PS1"'\[\033[36m\]'  # change color to cyan
 		PS1="$PS1"'`__git_ps1`'   # bash function
 	fi
 fi
